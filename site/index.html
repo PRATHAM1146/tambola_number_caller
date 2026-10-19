@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tambola Caller</title>
+<meta name="description" content="Call Tambola and Housie numbers from 1 to 90 with spoken announcements, a 10 second timer and the full call order.">
+<meta name="theme-color" content="#0d1626">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html">
+      <img src="favicon.svg" alt="" width="28" height="28">
+      <span>Tambola Caller</span>
+    </a>
+    <p class="tagline">Numbers 1 to 90, one every 10 seconds</p>
+  </div>
+</header>
+
+<div class="notice-wrap">
+  <p id="speech-warning" class="notice" role="status" hidden></p>
+</div>
+
+<main class="layout">
+  <aside class="panel" aria-label="Current call and controls">
+    <section class="now" aria-labelledby="now-label">
+      <p id="now-label" class="label">Current number</p>
+      <div class="ball" id="current-ball">
+        <span id="current-number">--</span>
+      </div>
+      <p class="status-line" id="status-line" aria-live="polite">Press Start Game to call the first number.</p>
+    </section>
+
+    <dl class="stats">
+      <div class="stat">
+        <dt>Called</dt>
+        <dd><span id="called-count">0</span><small> / 90</small></dd>
+      </div>
+      <div class="stat">
+        <dt>Remaining</dt>
+        <dd id="remaining-count">90</dd>
+      </div>
+      <div class="stat">
+        <dt>Next call</dt>
+        <dd><span id="countdown">10</span><small> s</small></dd>
+      </div>
+    </dl>
+    <div class="timer-bar" aria-hidden="true"><span id="timer-fill"></span></div>
+
+    <div class="controls">
+      <button type="button" class="btn btn-primary btn-wide" id="btn-start">Start Game</button>
+      <button type="button" class="btn" id="btn-pause" disabled>Pause</button>
+      <button type="button" class="btn" id="btn-resume" disabled>Resume</button>
+      <button type="button" class="btn btn-wide btn-strong" id="btn-next" disabled>Call Next Number</button>
+      <button type="button" class="btn" id="btn-repeat" disabled>Repeat Last</button>
+      <button type="button" class="btn" id="btn-mute" aria-pressed="false">Mute</button>
+      <button type="button" class="btn" id="btn-test">Test Voice</button>
+      <button type="button" class="btn btn-danger" id="btn-reset" disabled>Reset Game</button>
+      <p class="hint btn-wide" id="test-hint" hidden>Pause the game to use Test Voice.</p>
+    </div>
+
+    <details class="voice" id="voice-panel">
+      <summary>Voice settings</summary>
+      <div class="voice-body">
+        <label for="voice-select">Voice</label>
+        <select id="voice-select">
+          <option value="">Browser default</option>
+        </select>
+
+        <label for="rate-input">Speed <output id="rate-output" for="rate-input">0.9x</output></label>
+        <input type="range" id="rate-input" min="0.6" max="1.4" step="0.1" value="0.9">
+
+        <label for="volume-input">Volume <output id="volume-output" for="volume-input">100%</output></label>
+        <input type="range" id="volume-input" min="0" max="1" step="0.05" value="1">
+
+      </div>
+    </details>
+  </aside>
+
+  <section class="board-area" aria-labelledby="board-title">
+    <div class="section-head">
+      <h2 id="board-title">Board</h2>
+      <p class="legend">
+        <span class="key key-open" aria-hidden="true"></span>Not called
+        <span class="key key-called" aria-hidden="true"></span>Called
+        <span class="key key-current" aria-hidden="true"></span>Latest
+      </p>
+    </div>
+    <ol class="board" id="board"></ol>
+
+    <section class="history" aria-labelledby="history-title">
+      <div class="section-head">
+        <h2 id="history-title">Call order</h2>
+        <p class="history-meta" id="history-meta">No numbers called yet.</p>
+      </div>
+      <ol class="history-list" id="history"></ol>
+    </section>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p>&copy; 2026 Tambola Caller</p>
+    <nav aria-label="Legal">
+      <a href="privacy.html">Privacy policy</a>
+      <a href="terms.html">Terms and conditions</a>
+    </nav>
+  </div>
+</footer>
+
+<dialog id="reset-dialog" aria-labelledby="reset-title">
+  <h2 id="reset-title">Reset the game?</h2>
+  <p>This clears every called number and the call order. A new shuffle is used for the next game.</p>
+  <div class="dialog-actions">
+    <button type="button" class="btn" id="reset-cancel" autofocus>Keep playing</button>
+    <button type="button" class="btn btn-danger" id="reset-confirm">Reset</button>
+  </div>
+</dialog>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
